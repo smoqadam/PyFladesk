@@ -7,7 +7,7 @@ Rather than open Flask app in user browser, create a QWebview and then run Flask
 
 
 ## Notice 
-I'm new to python and I'm looking for new way to create desktop applications. Create this project for learning purpose. Maybe/surely my codes need to more improvements.
+I'm new to python and I'm going to improve my python knowledge. I was looking for new way to create desktop applications. Create this project for learning purpose. Maybe/surely my codes need to more improvements.
 ###### PLEASE TELL ME IF YOU SEE ANY MISTAKE OR NOTABLE THINGS BY OPENING A NEW ISSUE AND SENDING PULL REQUEST
 ## How to use
 

@@ -1,13 +1,15 @@
 import sys
 
 from PyQt4.QtCore import QThread, QUrl
-from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QApplication,QMainWindow
 from PyQt4.QtWebKit import QWebView
 
 
 PORT = 5000
 ROOT_URL = 'http://localhost:{}'.format(PORT)
-
+WIDTH = 300
+HEIGHT = 400
+WINDOW_TITLE = "PyFladesk"
 
 class FlaskThread(QThread):
     def __init__(self, application):
@@ -21,6 +23,30 @@ class FlaskThread(QThread):
         self.application.run(port=PORT)
 
 
+class MainWindow(QMainWindow):
+
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.resize (WIDTH , HEIGHT)
+        self.setWindowTitle(WINDOW_TITLE)
+        self.webView = WebView(self)
+        self.setCentralWidget(self.webView)
+        
+
+
+class WebView(QWebView):
+    def __init__(self ,parent=None):
+        super(WebView,self).__init__(parent)
+
+    def dragEnterEvent(self,e):
+        e.ignore()
+
+    def dropEvent(self,e):
+        e.ignore()
+
+    def contextMenuEvent(self,e):
+        pass
+
 def provide_GUI_for(application):
     qtapp = QApplication(sys.argv)
 
@@ -29,13 +55,13 @@ def provide_GUI_for(application):
 
     qtapp.aboutToQuit.connect(webapp.terminate)
 
-    webview = QWebView()
-    webview.load(QUrl(ROOT_URL))
-    webview.show()
+    mainWindow = MainWindow()
+    mainWindow.webView.load(QUrl(ROOT_URL))
+    mainWindow.show()
 
     return qtapp.exec_()
 
 
 if __name__ == '__main__':
     from routes import app
-    sys.exit(provide_GUI_for(app))
+    provide_GUI_for(app)

@@ -1,16 +1,19 @@
-import sys
+import sys,webbrowser
 
-from PyQt4.QtCore import QThread, QUrl
-from PyQt4.QtGui import QApplication,QMainWindow
-from PyQt4.QtWebKit import QWebView
+from PyQt4.QtCore import QThread, QUrl,SIGNAL,QSize
+from PyQt4.QtGui import QApplication,QMainWindow,QIcon
+from PyQt4.QtWebKit import QWebView,QWebPage
 
-
+# CONFIG
 PORT = 5000
 ROOT_URL = 'http://localhost:{}'.format(PORT)
 WIDTH = 300
 HEIGHT = 400
 WINDOW_TITLE = "PyFladesk"
+ICON = 'appicon.png'
 
+
+# run flask on seperate theared
 class FlaskThread(QThread):
     def __init__(self, application):
         QThread.__init__(self)
@@ -46,7 +49,13 @@ class WebView(QWebView):
 
     def contextMenuEvent(self,e):
         pass
-
+    
+    # open links in default browser 
+    # stolen from http://stackoverflow.com/a/3188942/1103397 :D
+    def linkClicked(self,url): 
+        webbrowser.open(url.toEncoded().data())
+        
+        
 def provide_GUI_for(application):
     qtapp = QApplication(sys.argv)
 
@@ -56,6 +65,13 @@ def provide_GUI_for(application):
     qtapp.aboutToQuit.connect(webapp.terminate)
 
     mainWindow = MainWindow()
+    # set app icon    
+    mainWindow.setWindowIcon(QIcon(ICON))
+    
+    # prevent open urls in QWebView.
+    mainWindow.webView.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+    mainWindow.webView.connect(mainWindow.webView, SIGNAL("linkClicked (const QUrl&)"), mainWindow.webView.linkClicked)
+    
     mainWindow.webView.load(QUrl(ROOT_URL))
     mainWindow.show()
 

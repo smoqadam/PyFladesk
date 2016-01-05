@@ -29,6 +29,11 @@ then run your desktop app
 
 `> python pyfladesk.py`
 
+#### Sample RSS Reader app
+
+I wrote a sample Rss reader app by PyFladesk. you can find [here](https://github.com/smoqadam/PyFladesk-rss-reader).
+
+it works fine in Windows 7 but I didn't test it in Linux or OSx. if you did it please let me know about it.
 
 ## Contributing
 

@@ -1,8 +1,9 @@
 import sys,webbrowser
 
-from PyQt4.QtCore import QThread, QUrl,SIGNAL,QSize
-from PyQt4.QtGui import QApplication,QMainWindow,QIcon
-from PyQt4.QtWebKit import QWebView,QWebPage
+from PyQt5.QtCore import QThread, QUrl,pyqtSignal,QSize
+from PyQt5.QtWidgets import QApplication,QMainWindow
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWebEngineWidgets import QWebEngineView,QWebEnginePage
 
 # CONFIG
 PORT = 5000
@@ -37,7 +38,7 @@ class MainWindow(QMainWindow):
         
 
 
-class WebView(QWebView):
+class WebView(QWebEngineView):
     def __init__(self ,parent=None):
         super(WebView,self).__init__(parent)
 
@@ -68,9 +69,6 @@ def provide_GUI_for(application):
     # set app icon    
     mainWindow.setWindowIcon(QIcon(ICON))
     
-    # prevent open urls in QWebView.
-    mainWindow.webView.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-    mainWindow.webView.connect(mainWindow.webView, SIGNAL("linkClicked (const QUrl&)"), mainWindow.webView.linkClicked)
     
     mainWindow.webView.load(QUrl(ROOT_URL))
     mainWindow.show()

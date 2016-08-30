@@ -1,0 +1,9 @@
+click==6.6
+Flask==0.11.1
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
+pkg-resources==0.0.0
+PyQt5==5.7
+sip==4.18.1
+Werkzeug==0.11.10

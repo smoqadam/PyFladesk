@@ -1,9 +1,10 @@
 import sys
 import webbrowser
 
-from PyQt4.QtCore import QThread, QUrl, SIGNAL
-from PyQt4.QtGui import QApplication, QMainWindow, QIcon
-from PyQt4.QtWebKit import QWebView, QWebPage
+from PyQt5.QtCore import QThread, QUrl
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets  import QApplication, QMainWindow
+from PyQt5.QtWebKitWidgets import QWebView, QWebPage
 
 
 def init_gui(application, port=5000, width=300, height=400,
@@ -14,7 +15,6 @@ def init_gui(application, port=5000, width=300, height=400,
     # open links in browser from http://stackoverflow.com/a/3188942/1103397 :D
     def link_clicked(url):
         ready_url = url.toEncoded().data().decode()
-        print(ready_url)
         if ROOT_URL not in ready_url:
             webbrowser.open(ready_url)
         else:
@@ -40,8 +40,7 @@ def init_gui(application, port=5000, width=300, height=400,
     window.setWindowIcon(QIcon(icon))
 
     window.webView.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-    link_signal = SIGNAL("linkClicked (const QUrl&)")
-    window.webView.connect(window.webView, link_signal, link_clicked)
+    window.webView.page().linkClicked.connect(link_clicked)
 
     window.webView.load(QUrl(ROOT_URL))
     window.show()

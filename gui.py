@@ -14,7 +14,6 @@ def init_gui(application, port=5000, width=300, height=400,
     # open links in browser from http://stackoverflow.com/a/3188942/1103397 :D
     def link_clicked(url):
         ready_url = url.toEncoded().data().decode()
-        print(ready_url)
         if ROOT_URL not in ready_url:
             webbrowser.open(ready_url)
         else:

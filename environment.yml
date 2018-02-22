@@ -1,0 +1,8 @@
+channels:
+- defaults
+dependencies:
+- pyqt=4.11.4
+- python=3.5
+- pip:
+  - flask==0.12.2
+

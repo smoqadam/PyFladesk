@@ -2,30 +2,45 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtGui, QtWebEngineWidgets
 
 
-def init_gui(application, port=5000, width=300, height=400,
-             window_title="PyFladesk", icon="appicon.png"):
+class ApplicationThread(QtCore.QThread):
+    def __init__(self, application, port=5000):
+        super(ApplicationThread, self).__init__()
+        self.application = application
+        self.port = port
 
-    ROOT_URL = 'http://localhost:{}'.format(port)
+    def __del__(self):
+        self.wait()
 
-    # open links in browser from http://stackoverflow.com/a/3188942/1103397 :D
-    # thanks to https://github.com/marczellm/qhangups/blob/cfed73ee4383caed1568c0183a9906180f01cb00/qhangups/WebEnginePage.py
-    def link_clicked(url, typ, ismainframe):
+    def run(self):
+        self.application.run(port=self.port, threaded=True)
+
+
+class WebPage(QtWebEngineWidgets.QWebEnginePage):
+    def __init__(self, root_url):
+        super(WebPage, self).__init__()
+        self.root_url = root_url
+
+    def home(self):
+        self.load(QtCore.QUrl(self.root_url))
+
+    def acceptNavigationRequest(self, url, kind, is_main_frame):
+        """Open external links in browser and internal links in the webview"""
         ready_url = url.toEncoded().data().decode()
-        is_clicked = typ == QtWebEngineWidgets.QWebEnginePage.NavigationTypeLinkClicked
-        is_not_internal = ROOT_URL not in ready_url
-        if is_clicked and is_not_internal:
+        is_clicked = kind == self.NavigationTypeLinkClicked
+        if is_clicked and self.root_url not in ready_url:
             QtGui.QDesktopServices.openUrl(url)
             return False
-        return True
+        return super(WebPage, self).acceptNavigationRequest(url, kind, is_main_frame)
 
-    def run_app():
-        application.run(port=port, threaded=True)
+
+def init_gui(application, port=5000, width=300, height=400,
+             window_title="PyFladesk", icon="appicon.png", argv=None):
+    if argv is None:
+        argv = sys.argv
 
     # Application Level
-    qtapp = QtWidgets.QApplication(sys.argv)
-    webapp = QtCore.QThread()
-    webapp.__del__ = webapp.wait
-    webapp.run = run_app
+    qtapp = QtWidgets.QApplication(argv)
+    webapp = ApplicationThread(application, port)
     webapp.start()
     qtapp.aboutToQuit.connect(webapp.terminate)
 
@@ -36,15 +51,13 @@ def init_gui(application, port=5000, width=300, height=400,
     window.setWindowIcon(QtGui.QIcon(icon))
 
     # WebView Level
-    window.webView = QtWebEngineWidgets.QWebEngineView(window)
-    window.setCentralWidget(window.webView)
+    webView = QtWebEngineWidgets.QWebEngineView(window)
+    window.setCentralWidget(webView)
 
     # WebPage Level
-    page = QtWebEngineWidgets.QWebEnginePage()
-    page.acceptNavigationRequest = link_clicked
-    page.load(QtCore.QUrl(ROOT_URL))
-    window.webView.setPage(page)
+    page = WebPage('http://localhost:{}'.format(port))
+    page.home()
+    webView.setPage(page)
 
     window.show()
-
     return qtapp.exec_()

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Flask Desktop Application</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <header class="container">
+        <h3 class="text-muted">Flask Desktop Application</h3>
+        {% block header %}
+        {% endblock %}
+    </header>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="container footer">
+        {% block footer %}
+        {% endblock %}
+    </footer>
+</body>
+
+</html>

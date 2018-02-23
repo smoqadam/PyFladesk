@@ -61,10 +61,6 @@ Windows:
 2. Download the gui.py 
 3. Replace `app.run` with `init_gui(app)`
 
-#### Sample RSS Reader app
-
-I wrote a sample Rss reader app by PyFladesk. you can find it [here](https://github.com/smoqadam/PyFladesk-rss-reader).
-
 ## Packaging
 
 If you need to deliver your app as an executable file or in a compact folder you can use [PyInstaller](http://www.pyinstaller.org/)
@@ -95,6 +91,12 @@ This will create a folder `dist` with our executable ready to be shipped. The ex
 
 Since Qt is quite big, your executables will be big too. The example app of this repository is 70 MB (69 MB of which are the Qt Component for displaying HTML). This is reasonable taking into account that we are shipping a self contain web browser.
 
+## Sample apps
+List of apps which make by PyFladesk.
+ 
+ - [Sample RSS Reader app](https://github.com/smoqadam/PyFladesk-rss-reader)
+
+
 ## Contributing Oportunities
 
 Feel free to open issues and pull requests for new features and improvements. This is a guide for things that may be useful for the project:
@@ -103,6 +105,7 @@ Feel free to open issues and pull requests for new features and improvements. Th
 - Test performance of HTML5 and CSS3
 - Add Directory structure for large projects (Flask Patterns)
 - Test other micro web frameworks (Bottle, etc)
+- Make sample apps
 
 ## Thanks
 Thanks to [Mathias Ettinger](http://codereview.stackexchange.com/users/84718/mathias-ettinger) for his reviews, one [for the old code](https://codereview.stackexchange.com/a/114307/161364) and one [for the new one](https://codereview.stackexchange.com/a/188124/161364)

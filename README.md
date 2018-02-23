@@ -94,7 +94,7 @@ Since Qt is quite big, your executables will be big too. The example app of this
 ## Sample apps
 List of apps which make by PyFladesk.
  
- - [Sample RSS Reader app](https://github.com/smoqadam/PyFladesk-rss-reader)
+ - [RSS Reader](https://github.com/smoqadam/PyFladesk-rss-reader)
 
 
 ## Contributing Oportunities

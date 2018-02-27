@@ -92,7 +92,7 @@ This will create a folder `dist` with our executable ready to be shipped. The ex
 Since Qt is quite big, your executables will be big too. The example app of this repository is 70 MB (69 MB of which are the Qt Component for displaying HTML). This is reasonable taking into account that we are shipping a self contain web browser.
 
 ## Sample apps
-List of apps which make by PyFladesk.
+List of apps made by PyFladesk
  
  - [RSS Reader](https://github.com/smoqadam/PyFladesk-rss-reader)
 

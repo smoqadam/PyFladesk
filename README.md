@@ -75,12 +75,12 @@ init_gui(application, port=5000, width=300, height=400,
              window_title="PyFladesk", icon="appicon.png", argv=None)
 ```
 
-port: choose in which port the application will run.
-width: The initial width of the main window.
-height: The initial height of the main window.
-window_title: The main window title.
-icon: the path to the icon file of the main window.
-argv: additional parameters to the `QApplication` instance.
+- port: choose in which port the application will run.
+- width: The initial width of the main window.
+- height: The initial height of the main window.
+- window_title: The main window title.
+- icon: the path to the icon file of the main window.
+- argv: additional parameters to the `QApplication` instance.
 
 ## Packaging
 

@@ -1,5 +1,6 @@
 ## PyFladesk
-Create desktop application by using Flask and QtWebKit 
+
+Create desktop application by using Flask and QtWebEngine.
 
 ## Idea
 
@@ -13,61 +14,81 @@ By default, every internal link is open inside the app and every external link i
 - Flask
 - PyQt
 
-Note: Some releases require Conda to properly create a virtual environment
+Note: Some releases require Conda to properly create a virtual environment.
 
 ## Versions
 
 There are 3 available versions:
 
-- [PyQt4](https://github.com/smoqadam/PyFladesk/releases/tag/0.1)
-- [PyQt5.6](https://github.com/smoqadam/PyFladesk/releases/tag/0.2)
+- [PyQt4 - Legacy](https://github.com/smoqadam/PyFladesk/releases/tag/0.1)
+- [PyQt5.6 - Legacy](https://github.com/smoqadam/PyFladesk/releases/tag/0.2)
 - [PyQt5.10](https://github.com/smoqadam/PyFladesk/releases/tag/1.0)
 
-Note: Both PyQt4 and PyQt5.6 are only made available for compatibility reasons, there is no intention to keep them updated unless requested
+Note: Both PyQt4 and PyQt5.6 are only made available for compatibility reasons, there is no intention to keep them updated unless requested.
+
+## Instalation with pip
+
+If you want to install PyFladesk with pip you just run.
+
+`pip install pyfladesk`
+
+Only the latest version (PyQt5.10) is uploaded to PyPI. If you want to use a legacy version check the instructions in the corresponding branch readme. Each version is maintained in a different form due to versions issues so you should check the readme of the branch of the version you want to use.
+
+## No pip installation
+
+In case you don't want to use pip or you want to use a freezed version of PyFladesk, just download the `__init__.py` file from the `pyfladesk` folder and place it in your project (change the name to pyfladesk.py), then you can follow the instructions below.
 
 ## Usage
 
-### New Flask App
+You just need to change to lines:
 
-1. Download the [lastest release](https://github.com/smoqadam/PyFladesk/releases) and extract it
-2. Add your routes in `routes.py`
+Add an import at the top:
 
-Example:
+`from pyfladesk import init_gui`
+
+And wherever you run the app (`app.run`) replace it with:
+
+`init_gui(app)`
+
+Then run your app as usual
+
+### Example
 
 ```python
-from flask import render_template
-from app import app
+from flask import Flask
+from pyfladesk import init_gui
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+app = Flask(__name__)
 
-@app.route('/page2')
-def page2():
-    return render_template('page2.html')
+from routes import *
+
+if __name__ == '__main__':
+    init_gui(app)
 ```
 
-3. Run `app.py`
+## Parameters
 
-Linux:
-`> python3 app.py`
+The `init_gui` function has some optional parameters that you may find useful:
 
-Windows:
-`> python app.py`
+```python
+init_gui(application, port=5000, width=300, height=400,
+             window_title="PyFladesk", icon="appicon.png", argv=None)
+```
 
-### Existing Flask App
-
-1. Check dependences of your project and choose a branch accordingly
-2. Download the gui.py 
-3. Replace `app.run` with `init_gui(app)`
+port: choose in which port the application will run.
+width: The initial width of the main window.
+height: The initial height of the main window.
+window_title: The main window title.
+icon: the path to the icon file of the main window.
+argv: additional parameters to the `QApplication` instance.
 
 ## Packaging
 
-If you need to deliver your app as an executable file or in a compact folder you can use [PyInstaller](http://www.pyinstaller.org/)
+For a full guide on how to package the app in one executable with [PyInstaller](http://www.pyinstaller.org/) file check [this blog post](https://elc.github.io/posts/executable-flask-pyinstaller/)
 
-This avoids the need for the Python interpreter and the packages you use inside your project
+This avoids the need for the Python interpreter and the packages you use inside your project.
 
-If you haven't already, install it with pip (if you use virtual environments you should install it inside it)
+If you haven't already, install it with pip (if you use virtual environments you should install it inside it).
 
 `pip install pyinstaller`
 
@@ -83,19 +104,23 @@ Note: For more complex scenarios check the [PyInstaller Docs](https://pythonhost
 
 If we want everything in one executable file we can
 
-Windows: `pyinstaller -w -F --add-data "templates;templates" --add-data "static;static" app.py`
+Windows:
 
-Linux: `pyinstaller -w -F --add-data "templates:templates" --add-data "static:static" app.py` (NOT TESTED)
+`pyinstaller -w -F --add-data "templates;templates" --add-data "static;static" app.py`
+
+Linux: (NOT TESTED)
+
+`pyinstaller -w -F --add-data "templates:templates" --add-data "static:static" app.py`
 
 This will create a folder `dist` with our executable ready to be shipped. The executable will open the main window of our app.
 
-Since Qt is quite big, your executables will be big too. The example app of this repository is 70 MB (69 MB of which are the Qt Component for displaying HTML). This is reasonable taking into account that we are shipping a self contain web browser.
+Since Qt is quite big, your executables will be big too. The example app of this repository is 70 MB (69 MB of which are the Qt Component for displaying HTML). This is reasonable taking into account that we are shipping a self contain web browser. In case size is crucial, you can follow [this suggestions](https://elc.github.io/posts/executable-flask-pyinstaller/#the-other-problem-the-size)
 
 ## Sample apps
-List of apps made by PyFladesk
- 
- - [RSS Reader](https://github.com/smoqadam/PyFladesk-rss-reader)
 
+List of apps made by PyFladesk
+
+- [RSS Reader](https://github.com/smoqadam/PyFladesk-rss-reader)
 
 ## Contributing Oportunities
 
@@ -108,4 +133,5 @@ Feel free to open issues and pull requests for new features and improvements. Th
 - Make sample apps
 
 ## Thanks
+
 Thanks to [Mathias Ettinger](http://codereview.stackexchange.com/users/84718/mathias-ettinger) for his reviews, one [for the old code](https://codereview.stackexchange.com/a/114307/161364) and one [for the new one](https://codereview.stackexchange.com/a/188124/161364)

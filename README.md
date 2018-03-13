@@ -114,6 +114,32 @@ Linux: (NOT TESTED)
 
 This will create a folder `dist` with our executable ready to be shipped. The executable will open the main window of our app.
 
+If you still see `TemplateNotFound`, you may try the following (From [issue #9](https://github.com/smoqadam/PyFladesk/issues/9#issuecomment-372352796)):
+
+Define this in a helper script:
+
+```python
+def resource_path(relative_path):
+ """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+```
+
+Include this at the top, under imports
+
+```python
+if getattr(sys, 'frozen', False):
+    template_folder = resource_path('templates')
+    static_folder = resource_path('static')
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+else:
+    app = Flask(__name__)
+```
+
+Also from [issue #9](https://github.com/smoqadam/PyFladesk/issues/9#issuecomment-372352796), in Windows 10 you may need to run this script:
+
+`pyinstaller -w -F --add-data "templates;templates" --add-data "static;static" app.py --path 'C:\Program Files (x86)\Windows Kits\10\Redist\ucrt\DLLs\x64'`
+
 Since Qt is quite big, your executables will be big too. The example app of this repository is 70 MB (69 MB of which are the Qt Component for displaying HTML). This is reasonable taking into account that we are shipping a self contain web browser. In case size is crucial, you can follow [this suggestions](https://elc.github.io/posts/executable-flask-pyinstaller/#the-other-problem-the-size)
 
 ## Sample apps

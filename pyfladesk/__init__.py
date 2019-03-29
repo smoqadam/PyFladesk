@@ -1,5 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtWidgets, QtGui, QtWebEngineWidgets
+import socket
 
 
 class ApplicationThread(QtCore.QThread):
@@ -33,10 +34,16 @@ class WebPage(QtWebEngineWidgets.QWebEnginePage):
         return super(WebPage, self).acceptNavigationRequest(url, kind, is_main_frame)
 
 
-def init_gui(application, port=5000, width=300, height=400,
+def init_gui(application, port=0, width=800, height=600,
              window_title="PyFladesk", icon="appicon.png", argv=None):
     if argv is None:
         argv = sys.argv
+
+    if port == 0:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind(('localhost', 0))
+        port = sock.getsockname()[1]
+        sock.close()
 
     # Application Level
     qtapp = QtWidgets.QApplication(argv)

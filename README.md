@@ -108,9 +108,11 @@ Windows:
 
 `pyinstaller -w -F --add-data "templates;templates" --add-data "static;static" app.py`
 
-Linux: (NOT TESTED)
+Linux:
 
 `pyinstaller -w -F --add-data "templates:templates" --add-data "static:static" app.py`
+
+Depending on the Linux version, you might need to install `sudo apt install libpython3.x-dev`
 
 This will create a folder `dist` with our executable ready to be shipped. The executable will open the main window of our app.
 

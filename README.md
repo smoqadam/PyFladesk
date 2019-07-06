@@ -26,7 +26,7 @@ There are 3 available versions:
 
 Note: Both PyQt4 and PyQt5.6 are only made available for compatibility reasons, there is no intention to keep them updated unless requested.
 
-## Instalation with pip
+## Installation with pip
 
 If you want to install PyFladesk with pip you just run.
 
@@ -40,7 +40,7 @@ In case you don't want to use pip or you want to use a freezed version of PyFlad
 
 ## Usage
 
-You just need to change to lines:
+You just need to change two lines:
 
 Add an import at the top:
 
